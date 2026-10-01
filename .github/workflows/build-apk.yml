@@ -9,6 +9,8 @@ jobs:
   build:
     name: Build Android APKs
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout Repository
@@ -50,7 +52,7 @@ jobs:
           cd android
           ./gradlew assembleDebug --no-daemon --stacktrace
           cd ..
-          cp android/app/build/outputs/apk/debug/*.apk build-apks/JosDiners-Team-debug.apk
+          cp android/app/build/outputs/apk/debug/*.apk build-apks/JosDiners-Team.apk
         env:
           VITE_APP_TARGET: team
 
@@ -64,20 +66,54 @@ jobs:
           cd android
           ./gradlew assembleDebug --no-daemon --stacktrace
           cd ..
-          cp android/app/build/outputs/apk/debug/*.apk build-apks/JosDiners-Customer-debug.apk
+          cp android/app/build/outputs/apk/debug/*.apk build-apks/JosDiners-Customer.apk
         env:
           VITE_APP_TARGET: customer
 
-      - name: Upload Jo's Diner Team APK
+      - name: Upload Jo's Diner Team APK (Artifact)
         uses: actions/upload-artifact@v4
         with:
           name: JosDiners-Team-APK
-          path: build-apks/JosDiners-Team-debug.apk
+          path: build-apks/JosDiners-Team.apk
           retention-days: 14
 
-      - name: Upload Jo's Diner Customer APK
+      - name: Upload Jo's Diner Customer APK (Artifact)
         uses: actions/upload-artifact@v4
         with:
           name: JosDiners-Customer-APK
-          path: build-apks/JosDiners-Customer-debug.apk
+          path: build-apks/JosDiners-Customer.apk
           retention-days: 14
+
+      - name: Delete existing app-latest Release (if any)
+        run: |
+          gh release delete app-latest --yes || true
+          git push --delete origin app-latest || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release & Upload APKs
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: app-latest
+          name: "Jo's Diner Mobile Apps (Latest)"
+          body: |
+            ## 📱 Jo's Diner Android APKs
+
+            Download the latest builds below:
+
+            | App | Description |
+            |-----|-------------|
+            | **JosDiners-Customer.apk** | Customer ordering app — browse menu, reserve halls, track deliveries |
+            | **JosDiners-Team.apk** | Staff & Rider internal portal — courier dispatch, kitchen KDS, POS |
+
+            **Installation:** Download the APK → open the file on your Android device → tap Install.
+            > You may need to allow "Install from Unknown Sources" in your Android settings.
+
+            ---
+            *Auto-built by GitHub Actions on every push to main.*
+          files: |
+            build-apks/JosDiners-Customer.apk
+            build-apks/JosDiners-Team.apk
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

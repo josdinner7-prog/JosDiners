@@ -219,6 +219,15 @@ function CustomerFooter({ onExploreMenu, onBookHall }) {
                   <span>Book a Table</span>
                 </button>
               </li>
+              <li>
+                <button
+                  onClick={() => handleNav('/download')}
+                  className="hover:text-white transition flex items-center gap-1.5 group cursor-pointer text-emerald-400 font-bold"
+                >
+                  <span className="material-icons text-[14px] text-emerald-400 group-hover:translate-x-0.5 transition">android</span>
+                  <span>Get Android App</span>
+                </button>
+              </li>
             </ul>
           </div>
 
@@ -280,6 +289,26 @@ function CustomerFooter({ onExploreMenu, onBookHall }) {
             </div>
           </div>
 
+        </div>
+
+        {/* Android App Download Banner */}
+        <div className="mb-8 bg-gradient-to-r from-[#071A3D] via-slate-900 to-[#071A3D] border border-slate-700/60 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3 text-left">
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center shrink-0">
+              <span className="material-icons text-emerald-400 text-2xl">android</span>
+            </div>
+            <div>
+              <p className="text-sm font-black text-white leading-tight">Get the Jo's Diner App</p>
+              <p className="text-[11px] text-gray-400 font-medium mt-0.5">Order faster, track deliveries & reserve halls right from your Android phone.</p>
+            </div>
+          </div>
+          <button
+            onClick={() => handleNav('/download')}
+            className="shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white font-black text-xs shadow-lg shadow-emerald-500/20 transition active:scale-95"
+          >
+            <span className="material-icons text-base">download</span>
+            <span>Download Free APK</span>
+          </button>
         </div>
 
         {/* Bottom Bar: Copyright & Payment Method Asset Icons */}

@@ -21,6 +21,7 @@ const Login = lazy(() => import('../customer/pages/Login'))
 const Register = lazy(() => import('../customer/pages/Register'))
 const PaymentPage = lazy(() => import('../customer/pages/PaymentPage'))
 const PaymentSuccessPage = lazy(() => import('../customer/pages/PaymentSuccessPage'))
+const DownloadAppPage = lazy(() => import('../customer/pages/DownloadAppPage'))
 
 function CustomerRoutes() {
   return (
@@ -55,6 +56,7 @@ function CustomerRoutes() {
           <Route path="profile" element={<ProfilePage />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="download" element={<DownloadAppPage />} />
         </Route>
       </Routes>
     </Suspense>
