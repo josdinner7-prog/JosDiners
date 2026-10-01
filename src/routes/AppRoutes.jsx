@@ -59,11 +59,11 @@ function AppRoutes() {
           }
         />
 
-        {/* Customer Main Web Portal or Native Rider Boot */}
+        {/* Customer Main Web Portal or Native App Boot */}
         <Route
           path="/*"
           element={
-            Capacitor.isNativePlatform() ? (
+            Capacitor.isNativePlatform() && import.meta.env.VITE_APP_TARGET === 'team' ? (
               <Navigate to="/rider" replace />
             ) : (
               <CustomerRoutes />

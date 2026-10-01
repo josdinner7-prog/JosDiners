@@ -1,4 +1,4 @@
-name: Build Jo's Diner Team APK
+name: Build Jo's Diner Android APKs
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: Build Android APK
+    name: Build Android APKs
     runs-on: ubuntu-latest
 
     steps:
@@ -32,30 +32,52 @@ jobs:
       - name: Install Web Dependencies
         run: npm ci --include=dev
 
-      - name: Build Web Assets (Vite)
-        run: npx vite build
-
       - name: Prepare Android Project & SDK
         run: |
           echo "sdk.dir=$ANDROID_HOME" > android/local.properties
           sed -i '/org.gradle.java.home/d' android/gradle.properties || true
           chmod +x android/gradlew
           cat android/local.properties
+          mkdir -p build-apks
 
-      - name: Sync Web Assets to Android
+      - name: Build Jo's Diner Team APK
         run: |
+          node scripts/prepare-app.js team
+          npx vite build
           mkdir -p android/app/src/main/assets/public
           cp -r dist/* android/app/src/main/assets/public/
           npx cap sync android || ./node_modules/.bin/cap sync android || true
-
-      - name: Build APK with Gradle
-        run: |
           cd android
           ./gradlew assembleDebug --no-daemon --stacktrace
+          cd ..
+          cp android/app/build/outputs/apk/debug/*.apk build-apks/JosDiners-Team-debug.apk
+        env:
+          VITE_APP_TARGET: team
 
-      - name: Upload Debug APK Artifact
+      - name: Build Jo's Diner Customer APK
+        run: |
+          node scripts/prepare-app.js customer
+          npx vite build
+          mkdir -p android/app/src/main/assets/public
+          cp -r dist/* android/app/src/main/assets/public/
+          npx cap sync android || ./node_modules/.bin/cap sync android || true
+          cd android
+          ./gradlew assembleDebug --no-daemon --stacktrace
+          cd ..
+          cp android/app/build/outputs/apk/debug/*.apk build-apks/JosDiners-Customer-debug.apk
+        env:
+          VITE_APP_TARGET: customer
+
+      - name: Upload Jo's Diner Team APK
         uses: actions/upload-artifact@v4
         with:
-          name: JosDiners-Team-app-debug
-          path: android/app/build/outputs/apk/debug/*.apk
+          name: JosDiners-Team-APK
+          path: build-apks/JosDiners-Team-debug.apk
+          retention-days: 14
+
+      - name: Upload Jo's Diner Customer APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: JosDiners-Customer-APK
+          path: build-apks/JosDiners-Customer-debug.apk
           retention-days: 14

@@ -1,6 +1,6 @@
 {
-  "appId": "com.josdiners.rider",
-  "appName": "Jo's Diner Team",
+  "appId": "com.josdiners.customer",
+  "appName": "Jo's Diner",
   "webDir": "dist",
   "bundledWebRuntime": false,
   "server": {
@@ -10,7 +10,6 @@
       "*"
     ]
   },
-
   "plugins": {
     "StatusBar": {
       "style": "DARK",

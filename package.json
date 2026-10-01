@@ -15,7 +15,11 @@
     "webhook:setup": "node setup-paymongo-webhook.js",
     "cap:build": "vite build && npx cap sync android",
     "cap:sync": "npx cap sync android",
-    "cap:open": "npx cap open android"
+    "cap:open": "npx cap open android",
+    "build:customer": "node scripts/build-app.js customer",
+    "build:team": "node scripts/build-app.js team",
+    "prepare:customer": "node scripts/prepare-app.js customer",
+    "prepare:team": "node scripts/prepare-app.js team"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.2",

@@ -4,7 +4,7 @@ android {
     namespace = "com.josdiners.rider"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.josdiners.rider"
+        applicationId "com.josdiners.customer"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -24,7 +24,7 @@ android {
     }
     applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "JosDiner-Team-${variant.name}.apk"
+            outputFileName = "JosDiners-Customer-${variant.name}.apk"
         }
     }
 }
