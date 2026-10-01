@@ -61,9 +61,9 @@ export default function RiderNotificationsPage() {
     <div className="space-y-4 animate-in fade-in duration-200">
       
       {/* Header */}
-      <div className="border-b border-slate-800 pb-2 flex items-center justify-between">
+      <div className="border-b border-slate-200 pb-2 flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-black text-white flex items-center gap-2">
+          <h2 className="text-lg font-black text-[#071A3D] flex items-center gap-2">
             <span className="material-icons text-[#C8102E]">notifications</span>
             <span>Rider Notifications</span>
           </h2>
@@ -75,7 +75,7 @@ export default function RiderNotificationsPage() {
         {notifications.some(n => !n.is_read) && (
           <button
             onClick={handleMarkAllRead}
-            className="text-[11px] font-bold text-slate-300 hover:text-white bg-slate-800 px-2.5 py-1 rounded-lg border border-slate-700 cursor-pointer"
+            className="text-[11px] font-bold text-slate-600 hover:text-[#071A3D] bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200 cursor-pointer"
           >
             Mark all read
           </button>
@@ -85,16 +85,16 @@ export default function RiderNotificationsPage() {
       {/* Notifications List */}
       {isLoading ? (
         <div className="py-16 text-center space-y-2">
-          <span className="material-icons text-3xl text-slate-600 animate-spin">refresh</span>
+          <span className="material-icons text-3xl text-slate-300 animate-spin">refresh</span>
           <p className="text-xs text-slate-400 font-bold">Checking alerts...</p>
         </div>
       ) : notifications.length === 0 ? (
-        <div className="bg-slate-950 p-8 rounded-2xl border border-slate-800 text-center space-y-2">
-          <div className="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 mx-auto flex items-center justify-center text-slate-500">
+        <div className="bg-white p-8 rounded-lg border border-slate-200 text-center space-y-2">
+          <div className="w-12 h-12 rounded-lg bg-slate-50 border border-slate-200 mx-auto flex items-center justify-center text-slate-300">
             <span className="material-icons text-2xl">notifications_off</span>
           </div>
-          <h4 className="font-bold text-sm text-slate-300">No Notifications</h4>
-          <p className="text-xs text-slate-500 max-w-xs mx-auto">
+          <h4 className="font-bold text-sm text-slate-600">No Notifications</h4>
+          <p className="text-xs text-slate-400 max-w-xs mx-auto">
             You're completely up to date. You will be alerted whenever an order is assigned or updated.
           </p>
         </div>
@@ -107,22 +107,22 @@ export default function RiderNotificationsPage() {
               <div
                 key={notif.notification_id}
                 onClick={() => handleNotificationClick(notif)}
-                className={`p-3.5 rounded-2xl border transition cursor-pointer space-y-1.5 active:scale-98 ${
+                className={`p-3.5 rounded-lg border transition cursor-pointer space-y-1.5 active:scale-98 ${
                   isUnread
-                    ? 'bg-slate-900 border-[#C8102E]/60 shadow-lg'
-                    : 'bg-slate-950 border-slate-800/80 opacity-80 hover:opacity-100'
+                    ? 'bg-[#C8102E]/5 border-[#C8102E]/30 shadow-sm'
+                    : 'bg-white border-slate-200 opacity-80 hover:opacity-100'
                 }`}
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-2">
                     <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
-                      isUnread ? 'bg-[#C8102E] text-white' : 'bg-slate-800 text-slate-400'
+                      isUnread ? 'bg-[#C8102E] text-white' : 'bg-slate-100 text-slate-400'
                     }`}>
                       <span className="material-icons text-sm">
                         {notif.type === 'assignment' ? 'two_wheeler' : 'notifications'}
                       </span>
                     </div>
-                    <strong className="text-xs font-black text-white leading-tight">
+                    <strong className="text-xs font-black text-[#071A3D] leading-tight">
                       {notif.title}
                     </strong>
                   </div>
@@ -132,11 +132,11 @@ export default function RiderNotificationsPage() {
                   )}
                 </div>
 
-                <p className="text-xs text-slate-300 pl-9 leading-relaxed">
+                <p className="text-xs text-slate-500 pl-9 leading-relaxed">
                   {notif.message}
                 </p>
 
-                <div className="pl-9 flex items-center justify-between text-[10px] text-slate-500 font-mono">
+                <div className="pl-9 flex items-center justify-between text-[10px] text-slate-400 font-mono">
                   <span>{new Date(notif.created_at).toLocaleString()}</span>
                   {notif.action_url && (
                     <span className="text-[#C8102E] font-bold font-sans flex items-center gap-0.5">

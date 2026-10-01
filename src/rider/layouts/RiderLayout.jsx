@@ -80,27 +80,27 @@ export default function RiderLayout() {
   const handleLogout = () => {
     logoutStaff()
     showToast('Logged out from Rider Application.', 'info')
-    navigate('/rider/login', { replace: true })
+    navigate('/Rolelogin', { replace: true })
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 text-slate-100 flex flex-col justify-between font-sans antialiased selection:bg-[#C8102E] selection:text-white pb-20">
+    <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col justify-between font-sans antialiased selection:bg-[#C8102E] selection:text-white pb-20">
       
-      {/* Rider Mobile Top Header */}
-      <header className="sticky top-0 z-40 bg-slate-950/95 backdrop-blur-md border-b border-slate-800 shadow-md px-3.5 py-2.5">
+      {/* Rider Mobile Top Header — transparent, no background box or border */}
+      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-sm px-3.5 py-2.5">
         <div className="max-w-md mx-auto flex items-center justify-between gap-2">
           
           {/* Logo & Rider Identity */}
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-9 h-9 rounded-xl bg-[#071A3D] p-1 border border-slate-700/80 shadow-xs shrink-0 flex items-center justify-center">
+            <div className="w-9 h-9 rounded-lg bg-[#071A3D] p-1 shrink-0 flex items-center justify-center">
               <img src={logo} alt="Jo's Diner" className="w-full h-full object-contain" />
             </div>
             <div className="min-w-0">
               <div className="flex items-center gap-1.5">
-                <span className="font-black text-sm text-white truncate leading-tight">
+                <span className="font-black text-sm text-[#071A3D] truncate leading-tight">
                   {riderData?.full_name || staffUser?.full_name || 'Rider Courier'}
                 </span>
-                <span className="text-[9px] font-black uppercase px-1.5 py-0.2 rounded-md bg-[#C8102E] text-white shrink-0 tracking-wider">
+                <span className="text-[9px] font-black uppercase px-1.5 py-0.5 rounded bg-[#C8102E] text-white shrink-0 tracking-wider">
                   Rider
                 </span>
               </div>
@@ -117,16 +117,16 @@ export default function RiderLayout() {
             {/* Notifications Button */}
             <NavLink
               to="/rider/notifications"
-              className={({ isActive }) => `relative p-2 rounded-xl border transition ${
+              className={({ isActive }) => `relative p-2 rounded-lg border transition ${
                 isActive 
                   ? 'bg-[#C8102E] text-white border-[#C8102E]' 
-                  : 'bg-slate-900 border-slate-800 text-slate-300 hover:text-white'
+                  : 'bg-white border-slate-200 text-slate-500 hover:text-slate-800'
               }`}
               title="Notifications"
             >
               <span className="material-icons text-lg">notifications</span>
               {unreadNotifsCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#C8102E] text-white font-black text-[9px] flex items-center justify-center animate-pulse border border-slate-900">
+                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#C8102E] text-white font-black text-[9px] flex items-center justify-center animate-pulse border border-white">
                   {unreadNotifsCount}
                 </span>
               )}
@@ -137,16 +137,16 @@ export default function RiderLayout() {
               type="button"
               onClick={handleToggleOnline}
               disabled={isUpdatingStatus}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-black text-[11px] border transition cursor-pointer active:scale-95 shadow-xs ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-black text-[11px] border transition cursor-pointer active:scale-95 ${
                 isDelivering
-                  ? 'bg-amber-500/20 text-amber-400 border-amber-500/40'
+                  ? 'bg-amber-50 text-amber-600 border-amber-200'
                   : isOnline
-                  ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40 hover:bg-emerald-500/30'
-                  : 'bg-slate-800 text-slate-400 border-slate-700 hover:text-slate-200'
+                  ? 'bg-emerald-50 text-emerald-600 border-emerald-200 hover:bg-emerald-100'
+                  : 'bg-slate-100 text-slate-500 border-slate-200 hover:text-slate-700'
               }`}
               title="Toggle Online / Offline Status"
             >
-              <span className={`w-2 h-2 rounded-full ${isDelivering ? 'bg-amber-400 animate-ping' : isOnline ? 'bg-emerald-400 animate-pulse' : 'bg-slate-500'}`} />
+              <span className={`w-2 h-2 rounded-full ${isDelivering ? 'bg-amber-500 animate-ping' : isOnline ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`} />
               <span>{isDelivering ? 'Delivering' : isOnline ? 'Online' : 'Offline'}</span>
             </button>
           </div>
@@ -169,15 +169,15 @@ export default function RiderLayout() {
       </main>
 
       {/* Bottom Fixed Navigation Bar (Native Mobile Experience) */}
-      <nav className="fixed bottom-0 inset-x-0 z-40 bg-slate-950/95 backdrop-blur-md border-t border-slate-800 shadow-2xl py-1.5 px-2">
+      <nav className="fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 shadow-lg py-1.5 px-2">
         <div className="max-w-md mx-auto grid grid-cols-5 gap-1">
           
           {/* 1. Dashboard */}
           <NavLink
             to="/rider"
             end
-            className={({ isActive }) => `flex flex-col items-center justify-center py-1 rounded-xl transition ${
-              isActive ? 'text-[#C8102E] font-black' : 'text-slate-400 hover:text-slate-200 font-medium'
+            className={({ isActive }) => `flex flex-col items-center justify-center py-1 rounded-lg transition ${
+              isActive ? 'text-[#C8102E] font-black' : 'text-slate-400 hover:text-slate-600 font-medium'
             }`}
           >
             <span className="material-icons text-xl leading-none">dashboard</span>
@@ -187,8 +187,8 @@ export default function RiderLayout() {
           {/* 2. Delivery Requests */}
           <NavLink
             to="/rider/requests"
-            className={({ isActive }) => `flex flex-col items-center justify-center py-1 rounded-xl relative transition ${
-              isActive ? 'text-[#C8102E] font-black' : 'text-slate-400 hover:text-slate-200 font-medium'
+            className={({ isActive }) => `flex flex-col items-center justify-center py-1 rounded-lg relative transition ${
+              isActive ? 'text-[#C8102E] font-black' : 'text-slate-400 hover:text-slate-600 font-medium'
             }`}
           >
             <div className="relative">
@@ -205,14 +205,14 @@ export default function RiderLayout() {
           {/* 3. Active Delivery */}
           <NavLink
             to="/rider/active"
-            className={({ isActive }) => `flex flex-col items-center justify-center py-1 rounded-xl relative transition ${
-              isActive ? 'text-amber-400 font-black' : 'text-slate-400 hover:text-slate-200 font-medium'
+            className={({ isActive }) => `flex flex-col items-center justify-center py-1 rounded-lg relative transition ${
+              isActive ? 'text-amber-500 font-black' : 'text-slate-400 hover:text-slate-600 font-medium'
             }`}
           >
             <div className="relative">
               <span className="material-icons text-xl leading-none">two_wheeler</span>
               {activeDelivery && (
-                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping" />
+                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-amber-500 animate-ping" />
               )}
             </div>
             <span className="text-[10px] mt-0.5">Active</span>
@@ -221,8 +221,8 @@ export default function RiderLayout() {
           {/* 4. Earnings */}
           <NavLink
             to="/rider/earnings"
-            className={({ isActive }) => `flex flex-col items-center justify-center py-1 rounded-xl transition ${
-              isActive ? 'text-[#C8102E] font-black' : 'text-slate-400 hover:text-slate-200 font-medium'
+            className={({ isActive }) => `flex flex-col items-center justify-center py-1 rounded-lg transition ${
+              isActive ? 'text-[#C8102E] font-black' : 'text-slate-400 hover:text-slate-600 font-medium'
             }`}
           >
             <span className="material-icons text-xl leading-none">account_balance_wallet</span>
@@ -232,8 +232,8 @@ export default function RiderLayout() {
           {/* 5. Profile */}
           <NavLink
             to="/rider/profile"
-            className={({ isActive }) => `flex flex-col items-center justify-center py-1 rounded-xl transition ${
-              isActive ? 'text-[#C8102E] font-black' : 'text-slate-400 hover:text-slate-200 font-medium'
+            className={({ isActive }) => `flex flex-col items-center justify-center py-1 rounded-lg transition ${
+              isActive ? 'text-[#C8102E] font-black' : 'text-slate-400 hover:text-slate-600 font-medium'
             }`}
           >
             <span className="material-icons text-xl leading-none">person</span>

@@ -5,7 +5,6 @@ import ProtectedRoute from './ProtectedRoute'
 import LoadingFallback from '../components/LoadingFallback'
 
 const RoleLogin = lazy(() => import('../auth/RoleLogin'))
-const RiderLoginPage = lazy(() => import('../rider/pages/RiderLoginPage'))
 const RiderRoutes = lazy(() => import('./RiderRoutes'))
 const AdminRoutes = lazy(() => import('./AdminRoutes'))
 const StaffRoutes = lazy(() => import('./StaffRoutes'))
@@ -19,8 +18,6 @@ function AppRoutes() {
         {/* Management Role Login */}
         <Route path="/Rolelogin" element={<RoleLogin />} />
 
-        {/* Dedicated Mobile Rider Login */}
-        <Route path="/rider/login" element={<RiderLoginPage />} />
 
         {/* Delivery Rider Mobile Application */}
         <Route
