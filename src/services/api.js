@@ -9,8 +9,9 @@ export function getApiBaseUrl() {
 
     // When running inside native Android / iOS Capacitor APK
     if (Capacitor.isNativePlatform()) {
-      return 'http://10.0.0.144:5000'
+      return 'https://api.josdiner.dpdns.org'
     }
+
 
     const { hostname, protocol, port } = window.location
 

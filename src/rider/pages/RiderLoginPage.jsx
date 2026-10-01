@@ -23,6 +23,47 @@ export default function RiderLoginPage() {
   const [newPassword, setNewPassword] = useState('')
   const [isSendingOtp, setIsSendingOtp] = useState(false)
 
+  // Server Configuration
+  const [isServerModalOpen, setIsServerModalOpen] = useState(false)
+  const [serverUrlInput, setServerUrlInput] = useState(
+    localStorage.getItem('josdiner_api_server') || 'https://api.josdiner.dpdns.org'
+  )
+  const [isTestingServer, setIsTestingServer] = useState(false)
+  const [serverTestStatus, setServerTestStatus] = useState(null)
+
+  const handleTestServer = async () => {
+    setIsTestingServer(true)
+    setServerTestStatus(null)
+    try {
+      const cleanUrl = serverUrlInput.trim().replace(/\/+$/, '')
+      const res = await fetch(`${cleanUrl}/api/health`, { method: 'GET' })
+      if (res.ok) {
+        setServerTestStatus({ success: true, message: 'Server reached successfully!' })
+      } else {
+        setServerTestStatus({ success: false, message: `Server returned HTTP ${res.status}` })
+      }
+    } catch (err) {
+      setServerTestStatus({ success: false, message: 'Cannot connect to this server address.' })
+    } finally {
+      setIsTestingServer(false)
+    }
+  }
+
+  const handleSaveServer = (e) => {
+    e.preventDefault()
+    const cleanUrl = serverUrlInput.trim().replace(/\/+$/, '')
+    localStorage.setItem('josdiner_api_server', cleanUrl)
+    showToast('Server address saved! Refreshing...', 'success')
+    setTimeout(() => window.location.reload(), 400)
+  }
+
+  const handleResetServer = () => {
+    localStorage.removeItem('josdiner_api_server')
+    setServerUrlInput('https://api.josdiner.dpdns.org')
+    showToast('Reset to default cloud server!', 'info')
+    setTimeout(() => window.location.reload(), 400)
+  }
+
   const handleLoginSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
@@ -203,9 +244,107 @@ export default function RiderLoginPage() {
       </div>
 
       {/* Footer */}
-      <footer className="text-center text-[11px] text-slate-600 max-w-sm mx-auto py-2">
-        Jo's Diner Delivery Operations &copy; {new Date().getFullYear()}
+      <footer className="text-center text-[11px] text-slate-500 max-w-sm mx-auto py-2 space-y-1.5">
+        <div>Jo's Diner Delivery Operations &copy; {new Date().getFullYear()}</div>
+        <button
+          type="button"
+          onClick={() => {
+            setServerTestStatus(null)
+            setIsServerModalOpen(true)
+          }}
+          className="text-[10px] text-slate-400 hover:text-amber-400 flex items-center justify-center gap-1 mx-auto transition bg-slate-900/60 px-2.5 py-1 rounded-full border border-slate-800"
+        >
+          <span className="material-icons text-[12px] text-emerald-400">dns</span>
+          <span className="font-mono truncate max-w-[220px]">
+            {localStorage.getItem('josdiner_api_server') || 'https://api.josdiner.dpdns.org'}
+          </span>
+          <span className="material-icons text-[11px] text-slate-500">settings</span>
+        </button>
       </footer>
+
+      {/* Server Configuration Modal */}
+      {isServerModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 animate-in fade-in">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-sm w-full p-4 space-y-3.5 shadow-2xl text-xs">
+            <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+              <h3 className="text-sm font-black text-white flex items-center gap-1.5">
+                <span className="material-icons text-amber-400 text-base">dns</span>
+                <span>Backend Server Address</span>
+              </h3>
+              <button
+                type="button"
+                onClick={() => setIsServerModalOpen(false)}
+                className="text-slate-400 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveServer} className="space-y-3">
+              <p className="text-slate-300">
+                Specify the backend API address the Rider APK communicates with:
+              </p>
+              <div>
+                <label className="text-slate-400 font-bold block mb-1">Server URL</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="https://api.josdiner.dpdns.org or http://10.0.0.144:5000"
+                  value={serverUrlInput}
+                  onChange={(e) => setServerUrlInput(e.target.value)}
+                  className="w-full p-2.5 rounded-xl bg-slate-950 border border-slate-700 text-white font-mono text-[11px] focus:outline-none focus:border-[#C8102E]"
+                />
+              </div>
+
+              {serverTestStatus && (
+                <div className={`p-2 rounded-xl text-xs flex items-center gap-1.5 font-bold ${
+                  serverTestStatus.success ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-800' : 'bg-rose-950/80 text-rose-300 border border-rose-800'
+                }`}>
+                  <span className="material-icons text-sm">{serverTestStatus.success ? 'check_circle' : 'error'}</span>
+                  <span>{serverTestStatus.message}</span>
+                </div>
+              )}
+
+              <div className="flex items-center justify-between pt-1">
+                <button
+                  type="button"
+                  onClick={handleTestServer}
+                  disabled={isTestingServer}
+                  className="py-1.5 px-3 rounded-xl bg-slate-800 text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1"
+                >
+                  <span className="material-icons text-xs">network_check</span>
+                  <span>{isTestingServer ? 'Testing...' : 'Test Connection'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleResetServer}
+                  className="text-slate-400 hover:text-slate-200 text-[11px] underline"
+                >
+                  Default
+                </button>
+              </div>
+
+              <div className="flex justify-end gap-2 pt-2 border-t border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => setIsServerModalOpen(false)}
+                  className="py-2 px-3 rounded-xl bg-slate-800 text-slate-300 font-bold hover:text-white"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="py-2 px-4 rounded-xl bg-[#C8102E] hover:bg-[#a50d26] text-white font-black"
+                >
+                  Save & Apply
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
 
       {/* Forgot Password Modal */}
       {isForgotModalOpen && (

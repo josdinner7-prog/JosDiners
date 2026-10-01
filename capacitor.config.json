@@ -4,15 +4,13 @@
   "webDir": "dist",
   "bundledWebRuntime": false,
   "server": {
-    "androidScheme": "https",
+    "androidScheme": "http",
     "cleartext": true,
     "allowNavigation": [
-      "10.0.0.144",
-      "localhost",
-      "*.dpdns.org",
-      "*.trycloudflare.com"
+      "*"
     ]
   },
+
   "plugins": {
     "StatusBar": {
       "style": "DARK",
