@@ -12,25 +12,36 @@ export function getApiBaseUrl() {
       return 'http://10.0.0.144:5000'
     }
 
-    const { hostname, protocol } = window.location
+    const { hostname, protocol, port } = window.location
 
     if (hostname.includes('josdiner.dpdns.org')) {
       return `${protocol}//api.josdiner.dpdns.org`
     }
 
+    // If loaded over HTTPS (such as cloudflare tunnels, ngrok, dpdns),
+    // NEVER fetch http:// directly because modern browsers block Mixed Content (Failed to fetch).
+    // An empty string routes through Vite / proxy securely!
     if (protocol === 'https:') {
       if (hostname.includes('dpdns.org')) {
         return 'https://api.josdiner.dpdns.org'
       }
+      return ''
     }
 
-    if (hostname !== 'localhost' && hostname !== '127.0.0.1' && /^\d+\.\d+\.\d+\.\d+$/.test(hostname)) {
+    // If accessing via Vite dev server or preview (port 5173/4173),
+    // Vite automatically proxies /api to port 5000 on localhost, eliminating CORS and firewall drops.
+    if (port === '5173' || port === '4173' || hostname === 'localhost' || hostname === '127.0.0.1') {
+      return ''
+    }
+
+    if (/^\d+\.\d+\.\d+\.\d+$/.test(hostname)) {
       return `${protocol}//${hostname}:5000`
     }
   }
 
-  return (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE_URL) || 'http://localhost:5000'
+  return (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE_URL) || ''
 }
+
 
 export const API_BASE_URL = getApiBaseUrl()
 
@@ -51,7 +62,16 @@ async function request(endpoint, options = {}) {
     config.body = JSON.stringify(config.body)
   }
 
-  const response = await fetch(url, config)
+  let response
+  try {
+    response = await fetch(url, config)
+  } catch (netErr) {
+    const errorMsg = 'Could not connect to backend server. Make sure the Node server is running on port 5000.'
+    const error = new Error(errorMsg)
+    error.originalError = netErr
+    throw error
+  }
+
   const data = await response.json().catch(() => ({}))
 
   if (!response.ok) {
@@ -69,6 +89,7 @@ async function request(endpoint, options = {}) {
 
   return data
 }
+
 
 export const api = {
   // BASE URL EXPORT

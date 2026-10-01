@@ -99,9 +99,9 @@ function RoleLogin({ onLoginSuccess, onSwitchToCustomer }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
-            {/* Left Column: Responsive Logo Showcase */}
-            <div className="lg:col-span-6 flex justify-center items-center order-2 lg:order-1 pt-4 lg:pt-0">
-              <div className="relative w-48 h-48 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-[400px] lg:h-[400px] flex items-center justify-center">
+            {/* Left Column: Logo Showcase (Hidden on Mobile/Tablet responsive view, shown on Desktop lg+) */}
+            <div className="hidden lg:flex lg:col-span-6 justify-center items-center order-2 lg:order-1 pt-4 lg:pt-0">
+              <div className="relative lg:w-[380px] lg:h-[380px] flex items-center justify-center">
                 <img 
                   src={logo} 
                   alt="Jo's Diner Logo" 
@@ -111,7 +111,7 @@ function RoleLogin({ onLoginSuccess, onSwitchToCustomer }) {
             </div>
 
             {/* Right Column: Responsive Sleeker Form */}
-            <div className="lg:col-span-6 space-y-4 sm:space-y-5 order-1 lg:order-2 text-center lg:text-left">
+            <div className="w-full lg:col-span-6 space-y-4 sm:space-y-5 order-1 lg:order-2 text-center lg:text-left max-w-lg mx-auto lg:max-w-none">
               
               <div>
                 <span className="text-[10px] font-extrabold text-[#C8102E] uppercase tracking-wider block mb-1">
