@@ -59,8 +59,8 @@ function RoleLogin({ onLoginSuccess, onSwitchToCustomer }) {
       isDarkMode ? 'bg-[#040D21] text-white' : 'bg-[#F8FAFC] text-[#071A3D]'
     }`}>
       
-      {/* Top Responsive Header Bar */}
-      <header className={`border-b py-2.5 sm:py-3 transition-colors duration-300 ${
+      {/* Top Responsive Header Bar - Hidden on mobile responsive view */}
+      <header className={`hidden sm:block border-b py-2 sm:py-2.5 transition-colors duration-300 ${
         isDarkMode ? 'bg-[#071A3D] border-slate-800' : 'bg-white border-gray-200'
       }`}>
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 flex items-center justify-between gap-2">
@@ -95,7 +95,7 @@ function RoleLogin({ onLoginSuccess, onSwitchToCustomer }) {
       </header>
 
       {/* Responsive Main Section */}
-      <section className="py-6 sm:py-10 md:py-14 my-auto">
+      <section className="py-4 sm:py-8 md:py-12 my-auto px-2 sm:px-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
@@ -312,15 +312,16 @@ function RoleLogin({ onLoginSuccess, onSwitchToCustomer }) {
       )}
 
       {/* Footer Copyright */}
-      <footer className={`border-t py-3.5 transition-colors duration-300 ${
-        isDarkMode ? 'bg-[#071A3D] border-slate-800 text-gray-400' : 'bg-white border-gray-200 text-gray-500'
+      <footer className={`border-t py-2 sm:py-2.5 transition-colors duration-300 ${
+        isDarkMode ? 'bg-[#071A3D]/70 border-slate-800/60 text-slate-400' : 'bg-white/80 border-gray-200/80 text-gray-400'
       }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-[10px] sm:text-[11px] font-medium">
-            © {new Date().getFullYear()} Jo's Diner Function Hall & Catering Services. All rights reserved.
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <p className="text-[9px] sm:text-[10px] tracking-tight font-medium">
+            &copy; {new Date().getFullYear()} Jo's Diner<span className="hidden sm:inline"> Function Hall & Catering Services</span>. All rights reserved.
           </p>
         </div>
       </footer>
+
 
     </div>
   )
