@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Jo\'s Diner Rider</string>
-    <string name="title_activity_main">Jo\'s Diner Rider</string>
+    <string name="app_name">Jo\'s Diner Team</string>
+    <string name="title_activity_main">Jo\'s Diner Team</string>
     <string name="package_name">com.josdiners.rider</string>
     <string name="custom_url_scheme">com.josdiners.rider</string>
 </resources>
