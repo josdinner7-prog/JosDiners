@@ -1,0 +1,128 @@
+@import "@fontsource/material-icons";
+@import "@fontsource/russo-one";
+@import "@fontsource/orbitron/800.css";
+@import "@fontsource/orbitron/900.css";
+@import "tailwindcss";
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  vertical-align: middle;
+  -webkit-font-smoothing: antialiased;
+}
+
+.jos-diner-brand-title {
+  font-family: 'Russo One', 'Orbitron', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #071A3D;
+}
+
+.dark .jos-diner-brand-title {
+  color: #FFFFFF;
+}
+
+@theme {
+  --color-brand-red: #C8102E;
+  --color-brand-red-dark: #9B0B21;
+  --color-brand-red-light: #E61E38;
+  --color-brand-navy: #071A3D;
+  --color-brand-navy-dark: #040D21;
+  --color-brand-navy-light: #0D2654;
+  --color-brand-gold: #F59E0B;
+  --color-brand-bg: #F8FAFC;
+}
+
+:root {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: #F8FAFC;
+  color: #071A3D;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+/* Sleek custom scrollbar for KDS columns and cards */
+.custom-kds-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.4) transparent;
+}
+
+.custom-kds-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-kds-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-kds-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.35);
+  border-radius: 4px;
+}
+
+.custom-kds-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(148, 163, 184, 0.65);
+}
+
+.dark .custom-kds-scrollbar {
+  scrollbar-color: rgba(71, 85, 105, 0.6) transparent;
+}
+
+.dark .custom-kds-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(71, 85, 105, 0.5);
+}
+
+.dark .custom-kds-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(100, 116, 139, 0.8);
+}

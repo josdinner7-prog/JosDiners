@@ -1,0 +1,27 @@
+{
+  "appId": "com.josdiners.rider",
+  "appName": "Jo's Diner Rider",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true,
+    "allowNavigation": [
+      "10.0.0.144",
+      "localhost",
+      "*.dpdns.org",
+      "*.trycloudflare.com"
+    ]
+  },
+  "plugins": {
+    "StatusBar": {
+      "style": "DARK",
+      "backgroundColor": "#071A3D"
+    },
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_name",
+      "iconColor": "#C8102E",
+      "sound": "beep.wav"
+    }
+  }
+}

@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SMS Gateway – Jo's Diner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #090a0f 0%, #121826 50%, #1b1e36 100%);
+      --card-bg: rgba(26, 32, 53, 0.85);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      --accent-blue: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      --primary: #f59e0b;
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --input-bg: rgba(15, 20, 35, 0.7);
+      --input-border: rgba(255, 255, 255, 0.12);
+      --success: #10b981;
+      --danger: #ef4444;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      line-height: 1.5;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 580px;
+    }
+
+    .header-card {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 18px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      border-radius: 9999px;
+      margin-bottom: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: #e5e7eb;
+      margin-bottom: 8px;
+    }
+
+    .form-label span.hint {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-prefix {
+      position: absolute;
+      left: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .input-field {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 14px;
+      color: var(--text-main);
+      outline: none;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .input-field.has-prefix {
+      padding-left: 56px;
+    }
+
+    .input-field:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+      background: rgba(15, 20, 35, 0.9);
+    }
+
+    textarea.input-field {
+      resize: vertical;
+      min-height: 110px;
+      line-height: 1.6;
+    }
+
+    .template-section {
+      margin-bottom: 20px;
+    }
+
+    .template-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .template-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #d1d5db;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-family: inherit;
+    }
+
+    .chip-btn:hover {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: rgba(245, 158, 11, 0.35);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    /* Accordion Settings */
+    .collapsible-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      transition: all 0.2s ease;
+    }
+
+    .collapsible-header:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+    }
+
+    .collapsible-content {
+      display: none;
+      padding: 14px;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .collapsible-content.show {
+      display: block;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* Submit Button */
+    .btn-submit {
+      width: 100%;
+      background: var(--accent-gradient);
+      color: #000;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 14px 24px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+      font-family: inherit;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45);
+      filter: brightness(1.08);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Status & Alerts */
+    .status-alert {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .status-alert.success {
+      display: block;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #34d399;
+    }
+
+    .status-alert.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #f87171;
+    }
+
+    .status-alert pre {
+      margin-top: 8px;
+      padding: 8px 12px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      font-family: monospace;
+      font-size: 12px;
+      overflow-x: auto;
+      color: #e5e7eb;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.4);
+      margin-top: 24px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header-card">
+      <div class="logo-badge">
+        <span>⚡</span> Jo's Diner SMS Gateway
+      </div>
+      <h1 class="title">Send SMS Notification</h1>
+      <p class="subtitle">Fast, direct Android SMS Gateway integration (Pure JavaScript)</p>
+    </div>
+
+    <div class="card">
+      <form id="smsForm">
+        <!-- Phone Number -->
+        <div class="form-group">
+          <label class="form-label" for="phoneInput">
+            <span>Phone Number</span>
+            <span class="hint" id="phoneHint">e.g. 9123456789 or 09123456789</span>
+          </label>
+          <div class="input-wrapper">
+            <span class="input-prefix">🇵🇭 +63</span>
+            <input
+              type="tel"
+              id="phoneInput"
+              class="input-field has-prefix"
+              placeholder="9XXXXXXXXX"
+              required
+              autocomplete="tel"
+            />
+          </div>
+        </div>
+
+        <!-- Quick Templates -->
+        <div class="template-section">
+          <div class="template-title">Quick Templates</div>
+          <div class="template-chips">
+            <button type="button" class="chip-btn" data-template="Good day! Your reservation at Jo's Diner has been confirmed. We look forward to hosting you!">✅ Confirmed</button>
+            <button type="button" class="chip-btn" data-template="Reminder: You have an upcoming reservation at Jo's Diner scheduled for tomorrow. See you soon!">⏰ Reminder</button>
+            <button type="button" class="chip-btn" data-template="Your table at Jo's Diner is ready! Please proceed to the reception for seating.">🍽️ Table Ready</button>
+            <button type="button" class="chip-btn" data-template="Your payment for reservation at Jo's Diner has been received with thanks.">💳 Payment</button>
+            <button type="button" class="chip-btn" data-template="Your Jo's Diner verification OTP code is: 123456. Valid for 5 minutes.">🔐 OTP Code</button>
+          </div>
+        </div>
+
+        <!-- Message Body -->
+        <div class="form-group">
+          <label class="form-label" for="messageInput">
+            <span>Message Content</span>
+            <span class="hint" id="charCounter">0 / 160 chars (1 SMS)</span>
+          </label>
+          <textarea
+            id="messageInput"
+            class="input-field"
+            placeholder="Type your SMS message here..."
+            required
+          ></textarea>
+        </div>
+
+        <!-- Advanced Gateway Credentials (Collapsible) -->
+        <div class="collapsible-header" id="toggleAdvanced">
+          <span>⚙️ Advanced Gateway Settings</span>
+          <span id="advToggleIcon">▼</span>
+        </div>
+        <div class="collapsible-content" id="advancedContent">
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label" for="usernameInput">Gateway Username</label>
+              <input type="text" id="usernameInput" class="input-field" value="H5YS7E" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="passwordInput">Gateway Password</label>
+              <input type="password" id="passwordInput" class="input-field" value="Carl Joseph Solivio" />
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" for="endpointInput">Gateway Endpoint</label>
+            <input type="url" id="endpointInput" class="input-field" value="https://api.sms-gate.app/3rdparty/v1/message" />
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="submitBtn" class="btn-submit">
+          <span id="btnIcon">📤</span>
+          <span id="btnText">Send SMS Now</span>
+        </button>
+
+        <!-- Status Response Box -->
+        <div id="statusAlert" class="status-alert"></div>
+      </form>
+    </div>
+
+    <div class="footer-note">
+      Jo's Diner Management System &copy; 2026 • Powered by Android SMS Gateway API
+    </div>
+  </div>
+
+  <script type="module">
+    // DOM Elements
+    const form = document.getElementById('smsForm');
+    const phoneInput = document.getElementById('phoneInput');
+    const messageInput = document.getElementById('messageInput');
+    const charCounter = document.getElementById('charCounter');
+    const usernameInput = document.getElementById('usernameInput');
+    const passwordInput = document.getElementById('passwordInput');
+    const endpointInput = document.getElementById('endpointInput');
+    const toggleAdvanced = document.getElementById('toggleAdvanced');
+    const advancedContent = document.getElementById('advancedContent');
+    const advToggleIcon = document.getElementById('advToggleIcon');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const btnIcon = document.getElementById('btnIcon');
+    const statusAlert = document.getElementById('statusAlert');
+
+    // Toggle Advanced Config
+    toggleAdvanced.addEventListener('click', () => {
+      const isShowing = advancedContent.classList.toggle('show');
+      advToggleIcon.textContent = isShowing ? '▲' : '▼';
+    });
+
+    // Template Chip Selection
+    document.querySelectorAll('.chip-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        messageInput.value = btn.dataset.template;
+        updateCharCount();
+        messageInput.focus();
+      });
+    });
+
+    // Character Counter & Segment Calculator
+    function updateCharCount() {
+      const len = messageInput.value.length;
+      const segments = Math.ceil(len / 160) || 1;
+      charCounter.textContent = `${len} / 160 chars (${segments} SMS segment${segments > 1 ? 's' : ''})`;
+      if (len > 160) {
+        charCounter.style.color = '#f59e0b';
+      } else {
+        charCounter.style.color = 'var(--text-muted)';
+      }
+    }
+    messageInput.addEventListener('input', updateCharCount);
+
+    // Philippine Phone Number Normalizer
+    function normalisePhilippineNumber(raw) {
+      let n = String(raw).replace(/[\s\-()]/g, '');
+      if (n.startsWith('+63')) {
+        // already full format
+      } else if (n.startsWith('63')) {
+        n = '+' + n;
+      } else if (n.startsWith('09')) {
+        n = '+63' + n.slice(1);
+      } else if (n.startsWith('9') && n.length === 10) {
+        n = '+63' + n;
+      } else {
+        return null;
+      }
+
+      if (!/^\+639\d{9}$/.test(n)) {
+        return null;
+      }
+      return n;
+    }
+
+    // Auto-clean phone input on change
+    phoneInput.addEventListener('input', (e) => {
+      let val = e.target.value.replace(/[^0-9+]/g, '');
+      if (val.startsWith('+63')) {
+        val = val.slice(3);
+      } else if (val.startsWith('63')) {
+        val = val.slice(2);
+      } else if (val.startsWith('09')) {
+        val = val.slice(1);
+      }
+      e.target.value = val;
+    });
+
+    // Handle Form Submit via JavaScript Fetch
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const rawNumber = phoneInput.value.trim();
+      const message = messageInput.value.trim();
+      const username = usernameInput.value.trim();
+      const password = passwordInput.value.trim();
+      const customUrl = endpointInput.value.trim();
+
+      const cleanNumber = normalisePhilippineNumber(rawNumber);
+      if (!cleanNumber) {
+        showStatus(false, '❌ Invalid Philippine mobile number. Must start with 9 and contain 10 digits after +63 (e.g. 9XXXXXXXXX).');
+        return;
+      }
+
+      // UI Loading State
+      setLoading(true);
+
+      try {
+        // First try the system's Node.js Express API route (/api/sms/send)
+        let response;
+        let result;
+        let usedDirect = false;
+
+        try {
+          response = await fetch('/api/sms/send', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              number: cleanNumber,
+              message: message,
+              username: username,
+              password: password
+            })
+          });
+
+          if (response.status !== 404) {
+            result = await response.json();
+          }
+        } catch {
+          // If Express API not reachable (e.g., opened via file:// or static server), fallback to direct Android SMS Gateway API
+        }
+
+        // Direct fallback to Android SMS Gateway Cloud API if local server is not mounted
+        if (!result) {
+          usedDirect = true;
+          const basicAuth = btoa(`${username}:${password}`);
+          const gatewayRes = await fetch(customUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Basic ${basicAuth}`
+            },
+            body: JSON.stringify({
+              message: message,
+              phoneNumbers: [cleanNumber]
+            })
+          });
+
+          result = await gatewayRes.json().catch(() => ({ status: gatewayRes.status }));
+          if (!gatewayRes.ok) {
+            throw new Error(result.message || result.error || `Gateway returned HTTP ${gatewayRes.status}`);
+          }
+        }
+
+        if (result.success !== false) {
+          showStatus(
+            true,
+            `✅ SMS successfully dispatched to ${cleanNumber}!`,
+            result
+          );
+        } else {
+          showStatus(false, `❌ ${result.message || 'Failed to send SMS.'}`, result);
+        }
+      } catch (err) {
+        showStatus(false, `❌ Error: ${err.message}`);
+      } finally {
+        setLoading(false);
+      }
+    });
+
+    function setLoading(isLoading) {
+      submitBtn.disabled = isLoading;
+      if (isLoading) {
+        btnIcon.textContent = '⏳';
+        btnText.textContent = 'Sending SMS...';
+      } else {
+        btnIcon.textContent = '📤';
+        btnText.textContent = 'Send SMS Now';
+      }
+    }
+
+    function showStatus(isSuccess, message, details = null) {
+      statusAlert.className = `status-alert ${isSuccess ? 'success' : 'error'}`;
+      let html = `<div>${message}</div>`;
+      if (details) {
+        html += `<pre>${JSON.stringify(details, null, 2)}</pre>`;
+      }
+      statusAlert.innerHTML = html;
+      statusAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  </script>
+</body>
+</html>

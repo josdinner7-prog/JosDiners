@@ -1,0 +1,57 @@
+name: Build Jo's Diner Rider APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  build:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 21
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Web Dependencies
+        run: npm ci || npm install
+
+      - name: Build Web Dist & Sync Capacitor
+        run: |
+          npm run build
+          npx cap sync android
+
+      - name: Remove hardcoded local Windows Java path if present
+        run: |
+          sed -i '/org.gradle.java.home/d' android/gradle.properties || true
+
+      - name: Grant Execute Permission for Gradlew
+        run: chmod +x android/gradlew
+
+      - name: Build APK with Gradle
+        run: |
+          cd android
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Upload Debug APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: JosDiners-Rider-app-debug
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 14
