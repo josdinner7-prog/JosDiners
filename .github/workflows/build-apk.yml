@@ -32,22 +32,23 @@ jobs:
       - name: Install Web Dependencies
         run: npm ci --include=dev
 
-      - name: Build Web Assets
+      - name: Build Web Assets (Vite)
         run: npx vite build
 
-      - name: Sync Capacitor Android
-        run: npx cap sync android
-
-      - name: Configure Android SDK and Clean Settings
+      - name: Prepare Android Project & SDK
         run: |
           echo "sdk.dir=$ANDROID_HOME" > android/local.properties
           sed -i '/org.gradle.java.home/d' android/gradle.properties || true
           chmod +x android/gradlew
+          cat android/local.properties
+
+      - name: Sync Capacitor Android
+        run: npx --yes @capacitor/cli sync android
 
       - name: Build APK with Gradle
         run: |
           cd android
-          ./gradlew assembleDebug --no-daemon
+          ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Upload Debug APK Artifact
         uses: actions/upload-artifact@v4
