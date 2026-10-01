@@ -3,7 +3,7 @@ name: Build Jo's Diner Rider APK
 on:
   push:
     branches: [ main, master ]
-  workflow_dispatch: # Allows manual trigger from GitHub UI
+  workflow_dispatch:
 
 jobs:
   build:
@@ -26,8 +26,13 @@ jobs:
           distribution: 'temurin'
           java-version: 21
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Configure Android SDK Path
+        run: |
+          echo "sdk.dir=$ANDROID_HOME" > android/local.properties
+          cat android/local.properties
 
       - name: Install Web Dependencies
         run: npm ci || npm install
@@ -37,7 +42,7 @@ jobs:
           npm run build
           npx cap sync android
 
-      - name: Remove hardcoded local Windows Java path if present
+      - name: Remove hardcoded local Windows Java path
         run: |
           sed -i '/org.gradle.java.home/d' android/gradle.properties || true
 
