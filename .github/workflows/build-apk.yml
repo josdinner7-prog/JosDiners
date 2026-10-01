@@ -29,25 +29,20 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Configure Android SDK Path
+      - name: Install Web Dependencies
+        run: npm ci --include=dev
+
+      - name: Build Web Assets
+        run: npx vite build
+
+      - name: Sync Capacitor Android
+        run: npx cap sync android
+
+      - name: Configure Android SDK and Clean Settings
         run: |
           echo "sdk.dir=$ANDROID_HOME" > android/local.properties
-          cat android/local.properties
-
-      - name: Install Web Dependencies
-        run: npm ci || npm install
-
-      - name: Build Web Dist & Sync Capacitor
-        run: |
-          npm run build
-          npx cap sync android
-
-      - name: Remove hardcoded local Windows Java path
-        run: |
           sed -i '/org.gradle.java.home/d' android/gradle.properties || true
-
-      - name: Grant Execute Permission for Gradlew
-        run: chmod +x android/gradlew
+          chmod +x android/gradlew
 
       - name: Build APK with Gradle
         run: |
