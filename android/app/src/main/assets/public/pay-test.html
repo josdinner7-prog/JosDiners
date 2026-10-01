@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jo's Diner - PayMongo Test Payment Portal</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Russo+One&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #f97316;
+      --primary-dark: #ea580c;
+      --primary-light: #ffedd5;
+      --bg-dark: #0f172a;
+      --card-dark: #1e293b;
+      --border-dark: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.12);
+      --gcash: #007dfe;
+      --maya: #2bb673;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0b0f19 0%, #0f172a 50%, #1e1b4b 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: rgba(249, 115, 22, 0.15);
+      border: 1px solid rgba(249, 115, 22, 0.35);
+      border-radius: 9999px;
+      color: #fb923c;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .brand-badge .dot {
+      width: 8px;
+      height: 8px;
+      background: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #22c55e;
+    }
+
+    h1 {
+      font-family: 'Russo One', sans-serif;
+      font-size: 2.2rem;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    .card {
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-dark);
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+      margin-bottom: 24px;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 14px;
+    }
+
+    .card-title svg {
+      color: var(--primary);
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .preset-btn {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border-dark);
+      border-radius: 12px;
+      padding: 12px 10px;
+      color: #cbd5e1;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .preset-btn span.label {
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .preset-btn:hover {
+      background: rgba(249, 115, 22, 0.15);
+      border-color: rgba(249, 115, 22, 0.5);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    .preset-btn.active {
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      border-color: #f97316;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.35);
+    }
+
+    .preset-btn.active span.label {
+      color: #fed7aa;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 600px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-prefix {
+      position: absolute;
+      left: 14px;
+      font-weight: 800;
+      color: var(--primary);
+      font-size: 1.1rem;
+      pointer-events: none;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid var(--border-dark);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 0.95rem;
+      color: #fff;
+      transition: all 0.2s;
+    }
+
+    .input-with-prefix {
+      padding-left: 36px !important;
+      font-size: 1.25rem !important;
+      font-weight: 700 !important;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.25);
+    }
+
+    .methods-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .method-card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border-dark);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.2s ease;
+    }
+
+    .method-card:hover {
+      border-color: rgba(255,255,255,0.25);
+    }
+
+    .method-card input[type="checkbox"] {
+      accent-color: var(--primary);
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .method-card .method-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #e2e8f0;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 800;
+      padding: 16px 24px;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.45);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px -5px rgba(249, 115, 22, 0.6);
+      background: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .test-credentials {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px dashed rgba(249, 115, 22, 0.4);
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 24px;
+    }
+
+    .test-credentials-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .test-credentials h4 {
+      font-size: 0.88rem;
+      color: #fb923c;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cred-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-size: 0.82rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .cred-row:last-child {
+      border-bottom: none;
+    }
+
+    .cred-label {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .cred-val {
+      font-family: monospace;
+      color: #e2e8f0;
+      background: rgba(255,255,255,0.06);
+      padding: 3px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .cred-val:hover {
+      background: rgba(249, 115, 22, 0.25);
+      color: #fb923c;
+    }
+
+    /* Success / Result Alert Box */
+    .alert-box {
+      display: none;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid #10b981;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .alert-box.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .alert-icon {
+      font-size: 2.5rem;
+      margin-bottom: 8px;
+    }
+
+    .alert-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #34d399;
+      margin-bottom: 6px;
+    }
+
+    .alert-desc {
+      color: #cbd5e1;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="brand-badge">
+        <span class="dot"></span> PayMongo Sandbox Test Gateway
+      </div>
+      <h1>JO'S DINER <span>ONLINE PAYMENT</span></h1>
+      <p class="subtitle">Simulate real-time online money transfers & customer payments via GCash, Maya, and Cards in test mode.</p>
+    </header>
+
+    <!-- Payment Return Banner (Shown when coming back from PayMongo checkout) -->
+    <div id="resultBanner" class="alert-box">
+      <div class="alert-icon" id="bannerIcon">🎉</div>
+      <h3 class="alert-title" id="bannerTitle">Payment Received!</h3>
+      <p class="alert-desc" id="bannerDesc">Your test payment was successfully authorized by PayMongo.</p>
+      <div id="bannerDetails" style="font-family: monospace; font-size: 0.85rem; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px; margin-bottom: 14px; text-align: left; display: none;"></div>
+      <button class="preset-btn active" style="margin: 0 auto; padding: 8px 18px;" onclick="resetForm()">Make Another Test Payment</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+          <line x1="2" y1="10" x2="22" y2="10"></line>
+        </svg>
+        Select Amount to Send / Pay
+      </div>
+
+      <!-- Quick Preset Amounts -->
+      <label>Quick Presets (PHP)</label>
+      <div class="preset-grid">
+        <button type="button" class="preset-btn" onclick="setAmount(20, this)">
+          ₱20
+          <span class="label">Minimum</span>
+        </button>
+        <button type="button" class="preset-btn" onclick="setAmount(50, this)">
+          ₱50
+          <span class="label">Snack</span>
+        </button>
+        <button type="button" class="preset-btn active" onclick="setAmount(100, this)">
+          ₱100
+          <span class="label">Standard</span>
+        </button>
+        <button type="button" class="preset-btn" onclick="setAmount(250, this)">
+          ₱250
+          <span class="label">Meal Deposit</span>
+        </button>
+        <button type="button" class="preset-btn" onclick="setAmount(500, this)">
+          ₱500
+          <span class="label">Table Fee</span>
+        </button>
+        <button type="button" class="preset-btn" onclick="setAmount(1000, this)">
+          ₱1,000
+          <span class="label">Function Hall</span>
+        </button>
+      </div>
+
+      <!-- Custom Amount Input -->
+      <div class="form-group">
+        <label for="customAmount">Or Enter Specific Amount (PHP)</label>
+        <div class="input-wrapper">
+          <span class="input-prefix">₱</span>
+          <input type="number" id="customAmount" class="input-with-prefix" min="20" step="1" value="100.00" oninput="onCustomAmountChange(this.value)">
+        </div>
+        <div style="font-size: 0.76rem; color: var(--text-muted); margin-top: 6px;">
+          Note: PayMongo requires a minimum amount of ₱20.00 PHP.
+        </div>
+      </div>
+
+      <!-- Customer Details -->
+      <div class="card-title" style="margin-top: 26px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        Payer Information
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="customerName">Full Name</label>
+          <input type="text" id="customerName" value="Test Customer" placeholder="e.g. Juan Dela Cruz">
+        </div>
+        <div class="form-group">
+          <label for="customerEmail">Receipt Email</label>
+          <input type="email" id="customerEmail" value="customer@example.com" placeholder="Email for official e-receipt">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="customerPhone">Mobile Number (Optional)</label>
+          <input type="text" id="customerPhone" value="09171234567" placeholder="0917xxxxxxx">
+        </div>
+        <div class="form-group">
+          <label for="description">Payment Remarks / Purpose</label>
+          <input type="text" id="description" value="Jo's Diner Test Send Money" placeholder="e.g. Table Reservation Deposit">
+        </div>
+      </div>
+
+      <!-- Payment Channels -->
+      <div class="card-title" style="margin-top: 14px;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        Enabled Payment Channels
+      </div>
+
+      <div class="methods-grid">
+        <label class="method-card">
+          <input type="checkbox" name="method" value="gcash" checked>
+          <span class="method-title">💙 GCash</span>
+        </label>
+        <label class="method-card">
+          <input type="checkbox" name="method" value="paymaya" checked>
+          <span class="method-title">💚 Maya</span>
+        </label>
+        <label class="method-card">
+          <input type="checkbox" name="method" value="card" checked>
+          <span class="method-title">💳 Visa / MC</span>
+        </label>
+        <label class="method-card">
+          <input type="checkbox" name="method" value="grab_pay" checked>
+          <span class="method-title">🚗 GrabPay</span>
+        </label>
+        <label class="method-card">
+          <input type="checkbox" name="method" value="dob" checked>
+          <span class="method-title">🏦 Online Bank</span>
+        </label>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="button" id="payBtn" class="btn-submit" onclick="submitPayment()">
+        <span id="btnIcon">🚀</span>
+        <span id="btnText">Proceed to Pay with PayMongo</span>
+      </button>
+
+      <!-- Sandbox Cheatsheet -->
+      <div class="test-credentials">
+        <div class="test-credentials-header">
+          <h4>🧪 PayMongo Sandbox Test Cheatsheet</h4>
+          <span style="font-size: 0.75rem; color: #94a3b8;">Click to copy</span>
+        </div>
+        <div class="cred-row">
+          <span class="cred-label">GCash Test Mobile:</span>
+          <span class="cred-val" onclick="copyText(this, '09171234567')">09171234567 (OTP: 123456)</span>
+        </div>
+        <div class="cred-row">
+          <span class="cred-label">Maya Test Mobile:</span>
+          <span class="cred-val" onclick="copyText(this, '09181234567')">09181234567 (OTP: 123456)</span>
+        </div>
+        <div class="cred-row">
+          <span class="cred-label">Test Visa Card:</span>
+          <span class="cred-val" onclick="copyText(this, '4242424242424242')">4242 4242 4242 4242</span>
+        </div>
+        <div class="cred-row">
+          <span class="cred-label">Card Expiry / CVC / 3DS:</span>
+          <span class="cred-val">12/28 | CVC: 123 | OTP: 123456</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentAmount = 100.00;
+
+    function setAmount(amount, buttonEl) {
+      currentAmount = amount;
+      document.getElementById('customAmount').value = amount.toFixed(2);
+      document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+      if (buttonEl) buttonEl.classList.add('active');
+    }
+
+    function onCustomAmountChange(val) {
+      const num = parseFloat(val);
+      if (!isNaN(num)) {
+        currentAmount = num;
+        document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
+      }
+    }
+
+    function copyText(el, text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const original = el.innerText;
+        el.innerText = 'Copied!';
+        setTimeout(() => { el.innerText = original; }, 1500);
+      });
+    }
+
+    function resetForm() {
+      window.location.href = window.location.pathname;
+    }
+
+    async function submitPayment() {
+      const amountInput = document.getElementById('customAmount');
+      const amount = parseFloat(amountInput.value);
+
+      if (isNaN(amount) || amount < 20) {
+        alert('Please enter a valid amount of at least ₱20.00 PHP.');
+        amountInput.focus();
+        return;
+      }
+
+      const selectedMethods = Array.from(document.querySelectorAll('input[name="method"]:checked')).map(cb => cb.value);
+      if (selectedMethods.length === 0) {
+        alert('Please select at least one payment method (e.g. GCash).');
+        return;
+      }
+
+      const customerName = document.getElementById('customerName').value.trim() || 'Valued Guest';
+      const customerEmail = document.getElementById('customerEmail').value.trim() || 'customer@example.com';
+      const customerPhone = document.getElementById('customerPhone').value.trim();
+      const description = document.getElementById('description').value.trim() || "Jo's Diner Test Payment";
+
+      const btn = document.getElementById('payBtn');
+      const btnText = document.getElementById('btnText');
+      const btnIcon = document.getElementById('btnIcon');
+
+      btn.disabled = true;
+      btnIcon.innerHTML = '<div class="spinner"></div>';
+      btnText.innerText = 'Creating Checkout Session...';
+
+      try {
+        const payload = {
+          amount: amount,
+          description: description,
+          customerName: customerName,
+          customerEmail: customerEmail,
+          customerPhone: customerPhone,
+          paymentMethods: selectedMethods,
+          successUrl: `${window.location.origin}${window.location.pathname}?status=success`,
+          cancelUrl: `${window.location.origin}${window.location.pathname}?status=cancelled`
+        };
+
+        const res = await fetch('/api/payments/create-checkout-session', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || !data.success || !data.checkoutUrl) {
+          throw new Error(data.message || 'Unable to generate PayMongo checkout link. Ensure backend server is running.');
+        }
+
+        btnText.innerText = 'Redirecting to PayMongo...';
+        // Save current session for verification
+        sessionStorage.setItem('last_paymongo_session_id', data.sessionId);
+        sessionStorage.setItem('last_paymongo_amount', amount.toFixed(2));
+
+        // Redirect directly to PayMongo's secure hosted payment page
+        window.location.href = data.checkoutUrl;
+      } catch (err) {
+        alert('Payment Creation Error: ' + err.message);
+        btn.disabled = false;
+        btnIcon.innerText = '🚀';
+        btnText.innerText = 'Proceed to Pay with PayMongo';
+      }
+    }
+
+    // Check if returning from PayMongo checkout redirect
+    window.addEventListener('DOMContentLoaded', async () => {
+      const params = new URLSearchParams(window.location.search);
+      const status = params.get('status');
+      const banner = document.getElementById('resultBanner');
+      const bannerIcon = document.getElementById('bannerIcon');
+      const bannerTitle = document.getElementById('bannerTitle');
+      const bannerDesc = document.getElementById('bannerDesc');
+      const bannerDetails = document.getElementById('bannerDetails');
+
+      if (status === 'success') {
+        banner.classList.add('active');
+        banner.style.borderColor = '#10b981';
+        bannerIcon.innerText = '🎉';
+        bannerTitle.innerText = 'Payment Authorized & Received!';
+        bannerDesc.innerText = 'Thank you! Your test transaction was processed successfully by PayMongo Sandbox.';
+
+        const lastSessionId = sessionStorage.getItem('last_paymongo_session_id');
+        const lastAmount = sessionStorage.getItem('last_paymongo_amount');
+
+        if (lastSessionId) {
+          bannerDetails.style.display = 'block';
+          bannerDetails.innerHTML = `<div>Fetching verified transaction details from PayMongo...</div>`;
+
+          try {
+            const verifyRes = await fetch(`/api/payments/session/${lastSessionId}`);
+            const verifyData = await verifyRes.json();
+            if (verifyRes.ok && verifyData.success) {
+              const s = verifyData.session;
+              bannerDetails.innerHTML = `
+                <div><strong>Status:</strong> <span style="color: #34d399;">${s.status.toUpperCase()}</span></div>
+                <div><strong>Amount:</strong> ₱${s.amount.toFixed(2)} PHP</div>
+                <div><strong>Method:</strong> ${s.paymentMethodType.toUpperCase()}</div>
+                <div><strong>Session ID:</strong> ${s.id}</div>
+                ${s.paymentId ? `<div><strong>Payment ID:</strong> ${s.paymentId}</div>` : ''}
+              `;
+            } else {
+              bannerDetails.innerHTML = `<div><strong>Amount:</strong> ₱${lastAmount || '100.00'} PHP</div><div><strong>Session ID:</strong> ${lastSessionId}</div>`;
+            }
+          } catch (e) {
+            bannerDetails.innerHTML = `<div><strong>Session:</strong> ${lastSessionId}</div>`;
+          }
+        }
+      } else if (status === 'cancelled') {
+        banner.classList.add('active');
+        banner.style.background = 'rgba(239, 68, 68, 0.15)';
+        banner.style.borderColor = '#ef4444';
+        bannerIcon.innerText = '⚠️';
+        bannerTitle.innerText = 'Payment Cancelled';
+        bannerTitle.style.color = '#f87171';
+        bannerDesc.innerText = 'You cancelled the checkout session. No charges were made.';
+      }
+    });
+  </script>
+</body>
+</html>

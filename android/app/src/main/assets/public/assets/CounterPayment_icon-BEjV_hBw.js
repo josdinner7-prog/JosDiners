@@ -1,0 +1,1 @@
+var e=``+new URL(`CounterPayment_icon-D284fqWo.png`,import.meta.url).href;export{e as t};
