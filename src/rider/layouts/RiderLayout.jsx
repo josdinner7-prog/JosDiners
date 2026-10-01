@@ -92,7 +92,7 @@ export default function RiderLayout() {
           
           {/* Logo & Rider Identity */}
           <div className="flex items-center gap-2.5 min-w-0">
-            <div className="w-9 h-9 rounded-lg bg-[#071A3D] p-1 shrink-0 flex items-center justify-center">
+            <div className="w-9 h-9 shrink-0 flex items-center justify-center">
               <img src={logo} alt="Jo's Diner" className="w-full h-full object-contain" />
             </div>
             <div className="min-w-0">
