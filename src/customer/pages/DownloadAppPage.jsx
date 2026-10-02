@@ -1,6 +1,5 @@
 import React from 'react'
 import { QRCodeSVG } from 'qrcode.react'
-import logo from '../../assets/logo.png'
 
 const CUSTOMER_APK_URL = 'https://github.com/josdinner7-prog/JosDiners/releases/download/app-latest/JosDiners-Customer.apk'
 const TEAM_APK_URL = 'https://github.com/josdinner7-prog/JosDiners/releases/download/app-latest/JosDiners-Team.apk'
@@ -10,9 +9,6 @@ export default function DownloadAppPage() {
     <div className="min-h-screen py-10 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
       {/* Hero Header */}
       <div className="text-center max-w-2xl mx-auto mb-10">
-        <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-white shadow-xl border border-slate-100 dark:border-slate-800 p-2.5 mb-4">
-          <img src={logo} alt="Jo's Diner Logo" className="w-full h-full object-contain" />
-        </div>
         <h1 className="text-3xl sm:text-4xl font-black text-[#071A3D] dark:text-white tracking-tight">
           Get the <span className="text-[#C8102E]">Jo's Diner</span> Mobile App
         </h1>
