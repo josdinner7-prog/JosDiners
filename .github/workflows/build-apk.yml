@@ -50,9 +50,10 @@ jobs:
           cp -r dist/* android/app/src/main/assets/public/
           npx cap sync android || ./node_modules/.bin/cap sync android || true
           cd android
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          rm -rf app/build/outputs/apk/debug/* || true
+          ./gradlew clean assembleDebug --no-daemon --stacktrace
           cd ..
-          cp android/app/build/outputs/apk/debug/*.apk build-apks/JosDiners-Team.apk
+          cp android/app/build/outputs/apk/debug/JosDiners-Team-*.apk build-apks/JosDiners-Team.apk
         env:
           VITE_APP_TARGET: team
 
@@ -64,9 +65,10 @@ jobs:
           cp -r dist/* android/app/src/main/assets/public/
           npx cap sync android || ./node_modules/.bin/cap sync android || true
           cd android
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          rm -rf app/build/outputs/apk/debug/* || true
+          ./gradlew clean assembleDebug --no-daemon --stacktrace
           cd ..
-          cp android/app/build/outputs/apk/debug/*.apk build-apks/JosDiners-Customer.apk
+          cp android/app/build/outputs/apk/debug/JosDiners-Customer-*.apk build-apks/JosDiners-Customer.apk
         env:
           VITE_APP_TARGET: customer
 

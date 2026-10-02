@@ -61,6 +61,8 @@ if (fs.existsSync(stringsPath)) {
 const buildGradlePath = path.join(rootDir, 'android', 'app', 'build.gradle')
 if (fs.existsSync(buildGradlePath)) {
   let gradle = fs.readFileSync(buildGradlePath, 'utf8')
+  // Update namespace
+  gradle = gradle.replace(/namespace\s*=\s*["'][^"']+["']/, `namespace = "${config.appId}"`)
   // Update applicationId
   gradle = gradle.replace(/applicationId\s+["'][^"']+["']/, `applicationId "${config.appId}"`)
   // Update outputFileName

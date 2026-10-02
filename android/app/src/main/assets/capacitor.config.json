@@ -1,24 +1,24 @@
 {
-	"appId": "com.josdiners.customer",
-	"appName": "Jo's Diner",
-	"webDir": "dist",
-	"bundledWebRuntime": false,
-	"server": {
-		"androidScheme": "http",
-		"cleartext": true,
-		"allowNavigation": [
-			"*"
-		]
-	},
-	"plugins": {
-		"StatusBar": {
-			"style": "DARK",
-			"backgroundColor": "#071A3D"
-		},
-		"LocalNotifications": {
-			"smallIcon": "ic_stat_name",
-			"iconColor": "#C8102E",
-			"sound": "beep.wav"
-		}
-	}
+  "appId": "com.josdiners.customer",
+  "appName": "Jo's Diner",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true,
+    "allowNavigation": [
+      "*"
+    ]
+  },
+  "plugins": {
+    "StatusBar": {
+      "style": "DARK",
+      "backgroundColor": "#071A3D"
+    },
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_name",
+      "iconColor": "#C8102E",
+      "sound": "beep.wav"
+    }
+  }
 }
