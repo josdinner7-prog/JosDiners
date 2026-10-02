@@ -53,8 +53,8 @@ function HeroBanner({ activeMode, setActiveMode, onBookHall, onExploreMenu, isDa
 
           </div>
 
-          {/* Right Column: Responsive Hero Logo */}
-          <div className="lg:col-span-5 flex justify-center items-center pt-1 lg:pt-0">
+          {/* Right Column: Responsive Hero Logo (Hidden on mobile/tablet responsive states, visible on desktop lg+) */}
+          <div className="hidden lg:flex lg:col-span-5 justify-center items-center pt-1 lg:pt-0">
             <div className="relative w-44 h-44 xs:w-52 xs:h-52 sm:w-72 sm:h-72 md:w-80 md:h-80 flex items-center justify-center">
               <img 
                 src={logo} 
